@@ -202,9 +202,19 @@ class MpvVideoController(
 
     // Audio quality is better with `audiotrack` than `opensles` (the default).
     // Calling `setAudioDevice` does not seem to work.
-    // As of 2025/01/13, directly setting audio output via property works for some files but not all,
-    // and switching from a supported file to an unsupported file crashes:
+    // Directly setting the audio output via property used to work for some files but not all,
+    // and switching from a supported file to an unsupported file used to crash,
+    // because upstream libmpv did not support multiple `audiotrack` JNI instances:
     // cf https://github.com/media-kit/media-kit/issues/1061
+    // The bundled libmpv carries mpv fix 46fe3cded0, which makes `audiotrack` safe
+    // alongside an `opensles` fallback:
+    // cf https://github.com/deckerst/aves/issues/1040
+    if (Platform.isAndroid) {
+      final platform = _mkPlayer.platform;
+      if (platform is NativePlayer) {
+        await platform.setProperty('ao', 'audiotrack,opensles');
+      }
+    }
 
     await _applyLoop();
     await _mkPlayer.open(Media(entry.uri), play: playing);

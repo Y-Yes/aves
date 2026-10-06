@@ -159,6 +159,13 @@ dependencies:
   xml:
 
 dependency_overrides:
+  # self-built libmpv for Android, carrying the `ao=audiotrack` multi-instance fix
+  # cf https://github.com/deckerst/aves/issues/1040
+  media_kit_libs_android_video:
+    git:
+      url: https://github.com/Y-Yes/media-kit.git
+      path: libs/android/media_kit_libs_android_video
+      ref: main
   media_kit_video:
     git:
       url: https://github.com/deckerst/media-kit.git
