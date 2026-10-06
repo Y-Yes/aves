@@ -106,7 +106,13 @@ jobs:
         uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
         with:
           artifacts: "outputs/*"
-          body: "[Changelog](https://github.com/${{ github.repository }}/blob/develop/CHANGELOG.md#${{ github.ref_name }})"
+          body: >-
+            Fork build ${{ github.ref_name }} of Aves, carrying the mpv audio fix for
+            [upstream issue 1040](https://github.com/deckerst/aves/issues/1040).
+            Uninstall the original Aves first (export your data via Settings → Export),
+            then install the `libre` APK.
+            See [README.fork.md](https://github.com/${{ github.repository }}/blob/develop/README.fork.md)
+            for details.
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload app bundle
